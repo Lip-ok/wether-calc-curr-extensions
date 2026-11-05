@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Dashboard</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3 12.5V5.5A1.5 1.5 0 0 1 4.5 4h9A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 3 12.5Z" stroke="#102018" stroke-width="1.6"/>
+            <path d="M6 11l2-2.2 1.6 1.4L12.5 7" stroke="#102018" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Smart Dashboard</h1>
+          <p class="date" id="date"></p>
+        </div>
+      </div>
+      <div class="header-side">
+        <p class="clock" id="clock" aria-label="Текущее время"></p>
+        <button class="icon-button" id="open-settings" type="button" aria-label="Настройки">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M8 1.6v1.4M8 13v1.4M1.6 8H3M13 8h1.4M3.2 3.2l1 1M11.8 11.8l1 1M12.8 3.2l-1 1M4.2 11.8l-1 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="card" id="weather-card" aria-labelledby="weather-title">
+      <div class="card-head">
+        <h2 id="weather-title">Погода</h2>
+        <button class="icon-button" id="refresh-weather" type="button" aria-label="Обновить погоду">↻</button>
+      </div>
+      <div class="city-search">
+        <input id="city-search" type="search" placeholder="Найти город" autocomplete="off" aria-label="Найти город" aria-controls="suggestions">
+        <button class="locate" id="locate" type="button" aria-label="Определить город">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="2.2" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M8 1.5v2.2M8 12.3v2.2M1.5 8h2.2M12.3 8h2.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <ul class="suggestions hidden" id="suggestions" role="listbox"></ul>
+      </div>
+      <p class="city-name" id="city-name"></p>
+      <p class="status" id="weather-status">Выберите город или определите его автоматически</p>
+      <div class="weather-main">
+        <div>
+          <p class="temp" id="temperature" aria-live="polite">—°</p>
+          <p class="feels" id="apparent">Ощущается —</p>
+        </div>
+        <div class="weather-icon" id="weather-icon"></div>
+      </div>
+      <div class="metrics">
+        <div><span>Влажность</span><strong id="humidity">—</strong></div>
+        <div><span>Ветер</span><strong id="wind">—</strong></div>
+        <div><span>Условия</span><strong id="condition">—</strong></div>
+      </div>
+      <div class="forecast" id="forecast" aria-label="Прогноз на 7 дней"></div>
+    </section>
+
+    <section class="card" aria-labelledby="currency-title">
+      <div class="card-head">
+        <h2 id="currency-title">Валюты</h2>
+        <button class="icon-button" id="refresh-currency" type="button" aria-label="Обновить курсы">↻</button>
+      </div>
+      <label class="amount">
+        <span>Сумма</span>
+        <input id="amount" inputmode="decimal" autocomplete="off" aria-label="Сумма">
+      </label>
+      <div class="converter">
+        <label class="field">
+          <span>Из</span>
+          <select class="currency-select" id="base-currency" aria-label="Исходная валюта"></select>
+        </label>
+        <button class="swap" id="swap" type="button" aria-label="Поменять валюты местами">⇄</button>
+        <label class="field">
+          <span>В</span>
+          <select class="currency-select" id="quote-currency" aria-label="Целевая валюта"></select>
+        </label>
+      </div>
+      <p class="result-value" id="conversion" aria-live="polite">—</p>
+      <p class="rate-line" id="rate-line"></p>
+      <p class="status" id="currency-status"></p>
+      <ul class="favorites" id="favorites"></ul>
+    </section>
+
+    <section class="card" id="calculator-card" aria-labelledby="calc-title">
+      <div class="card-head">
+        <h2 id="calc-title">Калькулятор</h2>
+        <button class="icon-button" id="copy-result" type="button" aria-label="Скопировать результат">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+            <rect x="5" y="5" width="8" height="8" rx="1.6" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M10 5V3.2A1.2 1.2 0 0 0 8.8 2H3.2A1.2 1.2 0 0 0 2 3.2v5.6A1.2 1.2 0 0 0 3.2 10H5" stroke="currentColor" stroke-width="1.3"/>
+          </svg>
+        </button>
+      </div>
+      <div class="calc-screen">
+        <p class="calc-expression" id="calc-expression"></p>
+        <p class="calc-result" id="calc-result" aria-live="polite">0</p>
+      </div>
+      <div class="calc-grid" id="calc-grid">
+        <button class="calc-key ghost" type="button" data-key="clear">C</button>
+        <button class="calc-key ghost" type="button" data-key="back" aria-label="Удалить символ">⌫</button>
+        <button class="calc-key op" type="button" data-key="(">(</button>
+        <button class="calc-key op" type="button" data-key=")">)</button>
+        <button class="calc-key" type="button" data-key="7">7</button>
+        <button class="calc-key" type="button" data-key="8">8</button>
+        <button class="calc-key" type="button" data-key="9">9</button>
+        <button class="calc-key op" type="button" data-key="/">÷</button>
+        <button class="calc-key" type="button" data-key="4">4</button>
+        <button class="calc-key" type="button" data-key="5">5</button>
+        <button class="calc-key" type="button" data-key="6">6</button>
+        <button class="calc-key op" type="button" data-key="*">×</button>
+        <button class="calc-key" type="button" data-key="1">1</button>
+        <button class="calc-key" type="button" data-key="2">2</button>
+        <button class="calc-key" type="button" data-key="3">3</button>
+        <button class="calc-key op" type="button" data-key="-">−</button>
+        <button class="calc-key" type="button" data-key="0">0</button>
+        <button class="calc-key" type="button" data-key=".">,</button>
+        <button class="calc-key op" type="button" data-key="%">%</button>
+        <button class="calc-key op" type="button" data-key="+">+</button>
+        <button class="calc-key eq" type="button" data-key="=">=</button>
+      </div>
+      <details class="history" id="history-block">
+        <summary>История вычислений</summary>
+        <ul id="history"></ul>
+      </details>
+    </section>
+
+    <footer class="footer">
+      <button class="text-button open-tab" id="open-tab" type="button">Открыть во вкладке</button>
+    </footer>
+  </div>
+  <div class="toast hidden" id="toast" role="status"></div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
